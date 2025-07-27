@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buddhist Centers - Unified Tracking System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .mode-indicator {
+            background: #ff9800;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .role-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .role-item {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .role-item h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .role-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .role-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .role-checkbox label {
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .role-center-select {
+            margin-top: 15px;
+        }
+        
+        .role-center-select select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .continue-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .continue-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .continue-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .navigation {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            padding: 12px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .nav-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-export {
+            background: #28a745;
+        }
+        
+        .btn-export:hover {
+            background: #218838;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .reports-table th,
+        .reports-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .reports-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        
+        .reports-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .status-submitted {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9ff;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area.dragover {
+            background: #e6f3ff;
+            border-color: #4CAF50;
+        }
+        
+        .section-title {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row,
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .role-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+            }
+            
+            .nav-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧘 Buddhist Centers</h1>
+            <p>Unified Tracking System</p>
+        </div>
+        
+        <div class="mode-indicator">
+            📱 OFFLINE MODE - All data stored locally in your browser - READY FOR TESTING
+        </div>
+        
+        <!-- Role Selection -->
+        <div id="roleSelection" class="card">
+            <h2 class="section-title">Select Your Roles</h2>
+            <p style="margin-bottom: 20px;">You can select multiple roles if applicable (e.g., Abbot + Admin, Abbot + Secretary)</p>
+            
+            <div class="role-selection">
+                <div class="role-item">
+                    <h3>🧘‍♂️ Abbot</h3>
+                    <div class="role-checkbox">
+                        <input type="checkbox" id="role-abbot" value="abbot">
+                        <label for="role-abbot">I am an Abbot</label>
+                    </div>
+                    <div class="role-center-select" id="abbot-center-select" style="display: none;">
+                        <label>Select Your Center:</label>
+                        <select id="abbotCenterSelect">
+                            <option value="">Choose your center...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="role-item">
+                    <h3>👨‍🏫 Assistant</h3>
+                    <div class="role-checkbox">
+                        <input type="checkbox" id="role-assistant" value="assistant">
+                        <label for="role-assistant">I am an Assistant</label>
+                    </div>
+                    <div class="role-center-select" id="assistant-center-select" style="display: none;">
+                        <label>Select Your Center:</label>
+                        <select id="assistantCenterSelect">
+                            <option value="">Choose your center...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="role-item">
+                    <h3>📊 Secretary</h3>
+                    <div class="role-checkbox">
+                        <input type="checkbox" id="role-secretary" value="secretary">
+                        <label for="role-secretary">I am a Secretary</label>
+                    </div>
+                </div>
+                
+                <div class="role-item">
+                    <h3>⚙️ Admin</h3>
+                    <div class="role-checkbox">
+                        <input type="checkbox" id="role-admin" value="admin">
+                        <label for="role-admin">I am an Admin</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="continue-btn" onclick="proceedWithRoles()" disabled id="continueBtn">
+                Continue to System
+            </button>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <div id="navigationMenu" class="navigation hidden">
+            <div class="nav-menu" id="navMenu">
+                <!-- Navigation buttons will be populated based on roles -->
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div id="mainContent" class="hidden">
+            <!-- All content sections will be shown/hidden here -->
+            
+            <!-- Submit Weekly Local Attendees -->
+            <div id="section-weekly-submit" class="card hidden">
+                <h2 class="section-title">📅 Submit Weekly Local Attendees</h2>
+                <div id="weekly-messages"></div>
+                
+                <form id="weeklyForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="weeklyWeekSelect">Select Reporting Week:</label>
+                            <select id="weeklyWeekSelect" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="weeklyCenterSelect">Select Center:</label>
+                            <select id="weeklyCenterSelect" required></select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="totalLocalAttendees">Total Local Attendees:</label>
+                            <input type="number" id="totalLocalAttendees" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newLocalAttendees">New Attendees:</label>
+                            <input type="number" id="newLocalAttendees" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="weeklyNotes">Notes (Optional):</label>
+                        <textarea id="weeklyNotes" rows="3" placeholder="Additional comments about this week's activities..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">💾 Submit Weekly Report</button>
+                </form>
+            </div>
+            
+            <!-- Submit Monthly Puja Kao Phra & Donations -->
+            <div id="section-monthly-submit" class="card hidden">
+                <h2 class="section-title">🌙 Submit Monthly Puja Kao Phra & Donations</h2>
+                <div id="monthly-messages"></div>
+                
+                <form id="monthlyForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="monthlyMonthSelect">Select Reporting Month:</label>
+                            <select id="monthlyMonthSelect" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="monthlyCenterSelect">Select Center:</label>
+                            <select id="monthlyCenterSelect" required></select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row-3">
+                        <div class="form-group">
+                            <label for="onsitePujaAttendees">On-site Puja Kao Phra Attendees:</label>
+                            <input type="number" id="onsitePujaAttendees" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="onlinePujaAttendees">Online Puja Kao Phra Attendees:</label>
+                            <input type="number" id="onlinePujaAttendees" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="totalPujaAttendees">Total Puja Kao Phra Attendees:</label>
+                            <input type="number" id="totalPujaAttendees" readonly style="background: #f5f5f5;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monthlyDonations">Total Monthly Donations ($):</label>
+                        <input type="number" id="monthlyDonations" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monthlyNotes">Notes (Optional):</label>
+                        <textarea id="monthlyNotes" rows="3" placeholder="Additional comments about this month's activities..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">💾 Submit Monthly Report</button>
+                </form>
+            </div>
+            
+            <!-- View Weekly Reports -->
+            <div id="section-weekly-reports" class="card hidden">
+                <h2 class="section-title">📊 Weekly Local Attendees Reports</h2>
+                
+                <div class="form-group">
+                    <label for="weeklyReportsWeekSelect">Select Week to View:</label>
+                    <select id="weeklyReportsWeekSelect"></select>
+                </div>
+                
+                <button class="btn btn-export" onclick="exportWeeklyReports()">📊 Export CSV</button>
+                
+                <div id="weeklyReportsContent">
+                    <!-- Reports will be populated here -->
+                </div>
+            </div>
+            
+            <!-- View Monthly Puja Reports -->
+            <div id="section-monthly-puja-reports" class="card hidden">
+                <h2 class="section-title">🌙 Monthly Puja Kao Phra Reports</h2>
+                
+                <div class="form-group">
+                    <label for="pujaReportsMonthSelect">Select Month to View:</label>
+                    <select id="pujaReportsMonthSelect"></select>
+                </div>
+                
+                <button class="btn btn-export" onclick="exportPujaReports()">📊 Export CSV</button>
+                
+                <div id="pujaReportsContent">
+                    <!-- Reports will be populated here -->
+                </div>
+            </div>
+            
+            <!-- View Donation Reports -->
+            <div id="section-donation-reports" class="card hidden">
+                <h2 class="section-title">💰 Monthly Donation Reports</h2>
+                
+                <div class="form-group">
+                    <label for="donationReportsMonthSelect">Select Month to View:</label>
+                    <select id="donationReportsMonthSelect"></select>
+                </div>
+                
+                <button class="btn btn-export" onclick="exportDonationReports()">📊 Export CSV</button>
+                
+                <div id="donationReportsContent">
+                    <!-- Reports will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Missing Submissions Report -->
+            <div id="section-missing-reports" class="card hidden">
+                <h2 class="section-title">⚠️ Missing Submissions Report</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="missingWeeklyCount">0</div>
+                        <div class="stat-label">Missing Weekly Reports</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="missingMonthlyCount">0</div>
+                        <div class="stat-label">Missing Monthly Reports</div>
+                    </div>
+                </div>
+                
+                <div id="missingReportsContent">
+                    <!-- Missing reports will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Center Management -->
+            <div id="section-center-management" class="card hidden">
+                <h2 class="section-title">🏛️ Center Management System</h2>
+                
+                <button class="btn" onclick="showAddCenterForm()">➕ Add New Center</button>
+                <button class="btn btn-export" onclick="exportCenters()">📊 Export Centers</button>
+                
+                <!-- Add/Edit Center Form -->
+                <div id="centerForm" class="hidden" style="margin-top: 20px; padding: 20px; border: 2px solid #667eea; border-radius: 10px;">
+                    <h3 id="centerFormTitle">Add New Center</h3>
+                    <form id="addEditCenterForm">
+                        <input type="hidden" id="editCenterId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="centerEnglishName">English Name (Required):</label>
+                                <input type="text" id="centerEnglishName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="centerThaiName">Thai Name (Optional):</label>
+                                <input type="text" id="centerThaiName">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="centerAbbreviation">Abbreviation (Required):</label>
+                                <input type="text" id="centerAbbreviation" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="centerStatus">Status:</label>
+                                <select id="centerStatus">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="centerAbbotName">Abbot Name (Required):</label>
+                                <input type="text" id="centerAbbotName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="centerAbbotEmail">Abbot Email (Required):</label>
+                                <input type="email" id="centerAbbotEmail" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="centerAssistantName">Assistant Name (Optional):</label>
+                                <input type="text" id="centerAssistantName">
+                            </div>
+                            <div class="form-group">
+                                <label for="centerAssistantEmail">Assistant Email (Optional):</label>
+                                <input type="email" id="centerAssistantEmail">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="centerNotes">Notes (Optional):</label>
+                            <textarea id="centerNotes" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">💾 Save Center</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelCenterForm()">❌ Cancel</button>
+                    </form>
+                </div>
+                
+                <div id="centersTableContainer">
+                    <!-- Centers table will be populated here -->
+                </div>
+            </div>
+            
+            <!-- Import Data -->
+            <div id="section-import-data" class="card hidden">
+                <h2 class="section-title">📥 Import Data from Google Sheets</h2>
+                
+                <div class="upload-area" id="uploadArea">
+                    <h3>📋 Import CSV Files</h3>
+                    <p>Drag and drop CSV files here or click to select files</p>
+                    <input type="file" id="fileInput" accept=".csv" multiple style="display: none;">
+                    <button class="btn" onclick="document.getElementById('fileInput').click()">📁 Choose Files</button>
+                </div>
+                
+                <div id="importResults" style="margin-top: 20px;">
+                    <!-- Import results will be shown here -->
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h3>📝 CSV Format Requirements</h3>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 10px;">
+                        <h4>Weekly Local Attendees CSV Format:</h4>
+                        <code>Center ID, Week (YYYY-MM-DD), Total Attendees, New Attendees, Notes</code>
+                        
+                        <h4 style="margin-top: 15px;">Monthly Puja Kao Phra CSV Format:</h4>
+                        <code>Center ID, Month (YYYY-MM), On-site Attendees, Online Attendees, Donations, Notes</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Buddhist Centers Data
+        let centers = [
+            {id: 1, abbreviation: "DIMC", englishName: "Dhammakaya International Meditation Center", thaiName: "วัดพระธรรมกายแคลิฟอร์เนีย", abbotEmail: "ven.pratya@gmail.com", abbotName: "พระครูสสถิตธรรมวิเวก", assistantName: "พระมหาประสิทธิ์", assistantEmail: "ppthimachai@gmail.com", isActive: true, notes: ""},
+            {id: 2, abbreviation: "SMC", englishName: "Seattle Meditation Center", thaiName: "", abbotEmail: "pass22436@gmail.com", abbotName: "Ven. Seattle Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 3, abbreviation: "MCC", englishName: "Meditation Center of Chicago", thaiName: "", abbotEmail: "wuttiwungso@yahoo.com", abbotName: "Ven. Chicago Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 4, abbreviation: "MDC", englishName: "Meditation Center of D.C.", thaiName: "", abbotEmail: "pmsuriya@gmail.com", abbotName: "Ven. DC Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 5, abbreviation: "DIMCNJ", englishName: "Dhammakaya International Meditation Center of New Jersey", thaiName: "", abbotEmail: "ven.sirichai@gmail.com", abbotName: "Ven. New Jersey Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 6, abbreviation: "GMC", englishName: "Georgia Meditation Center", thaiName: "", abbotEmail: "vichaks@gmail.com", abbotName: "Ven. Georgia Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 7, abbreviation: "FMC", englishName: "Florida Meditation Center", thaiName: "", abbotEmail: "128panniti@gmail.com", abbotName: "Ven. Florida Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 8, abbreviation: "OMC", englishName: "Oregon Meditation Center", thaiName: "", abbotEmail: "sombat2550@hotmail.com", abbotName: "Ven. Oregon Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 9, abbreviation: "DMCSV", englishName: "Dhammakaya Meditation Center Silicon Valley", thaiName: "", abbotEmail: "manikanto@hotmail.com", abbotName: "Ven. Silicon Valley Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 10, abbreviation: "MCTX", englishName: "Meditation Center of Texas", thaiName: "", abbotEmail: "teepamonk@gmail.com", abbotName: "Ven. Texas Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 11, abbreviation: "MMC", englishName: "Minnesota Meditation Center", thaiName: "", abbotEmail: "limpormov@gmail.com", abbotName: "Ven. Minnesota Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 12, abbreviation: "DMCB", englishName: "Dhammakaya Meditation Center Boston", thaiName: "", abbotEmail: "Peetas17@gmail.com", abbotName: "Ven. Boston Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 13, abbreviation: "DMCTN", englishName: "Dhammakaya Meditation Center Tennessee", thaiName: "", abbotEmail: "pcharnchai@dmcchicago.org", abbotName: "Ven. Tennessee Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 14, abbreviation: "DMCKS", englishName: "Dhammakaya Meditation Center Kansas", thaiName: "", abbotEmail: "kittigo@gmail.com", abbotName: "Ven. Kansas Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 15, abbreviation: "DMCPB", englishName: "Dhammakaya Meditation Center of Palm Beach", thaiName: "", abbotEmail: "kornchai.123@gmail.com", abbotName: "Ven. Palm Beach Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 16, abbreviation: "DMCSD", englishName: "Dhammakaya Meditation Center San Diego", thaiName: "", abbotEmail: "Ven.anuchit@gmail.com", abbotName: "Ven. San Diego Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 17, abbreviation: "DMCM", englishName: "Dhammakaya Meditation Center Mexico", thaiName: "", abbotEmail: "hanchai@gmail.com", abbotName: "Ven. Mexico Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 18, abbreviation: "DIMS of BC", englishName: "Dhammakaya International Meditation Society of British Columbia", thaiName: "", abbotEmail: "happisuk@gmail.com", abbotName: "Ven. BC Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 19, abbreviation: "D.M.C.TOR", englishName: "Dhammakaya Meditation Center Toronto", thaiName: "", abbotEmail: "phrathapakorn072@gmail.com", abbotName: "Ven. Toronto Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""},
+            {id: 20, abbreviation: "MDWNY", englishName: "The Middle Way Temple, New York", thaiName: "", abbotEmail: "venburin@gmail.com", abbotName: "Ven. New York Abbot", assistantName: "", assistantEmail: "", isActive: true, notes: ""}
+        ];
+        
+        let userRoles = [];
+        let userCenters = [];
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            populateCenterSelects();
+            setupRoleSelection();
+            initializeData();
+        });
+        
+        function populateCenterSelects() {
+            const selects = ['abbotCenterSelect', 'assistantCenterSelect'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="">Choose your center...</option>';
+                centers.forEach(center => {
+                    const option = document.createElement('option');
+                    option.value = center.id;
+                    option.textContent = `${center.abbreviation} - ${center.englishName}`;
+                    select.appendChild(option);
+                });
+            });
+        }
+        
+        function setupRoleSelection() {
+            const roleCheckboxes = document.querySelectorAll('input[type="checkbox"][id^="role-"]');
+            roleCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateRoleSelection);
+            });
+        }
+        
+        function updateRoleSelection() {
+            const abbotChecked = document.getElementById('role-abbot').checked;
+            const assistantChecked = document.getElementById('role-assistant').checked;
+            const secretaryChecked = document.getElementById('role-secretary').checked;
+            const adminChecked = document.getElementById('role-admin').checked;
+            
+            // Show/hide center selection for abbot and assistant
+            document.getElementById('abbot-center-select').style.display = abbotChecked ? 'block' : 'none';
+            document.getElementById('assistant-center-select').style.display = assistantChecked ? 'block' : 'none';
+            
+            // Enable continue button if at least one role is selected
+            const continueBtn = document.getElementById('continueBtn');
+            const anyRoleSelected = abbotChecked || assistantChecked || secretaryChecked || adminChecked;
+            continueBtn.disabled = !anyRoleSelected;
+        }
+        
+        function proceedWithRoles() {
+            userRoles = [];
+            userCenters = [];
+            
+            // Collect selected roles
+            if (document.getElementById('role-abbot').checked) {
+                userRoles.push('abbot');
+                const centerId = document.getElementById('abbotCenterSelect').value;
+                if (centerId) userCenters.push(parseInt(centerId));
+            }
+            
+            if (document.getElementById('role-assistant').checked) {
+                userRoles.push('assistant');
+                const centerId = document.getElementById('assistantCenterSelect').value;
+                if (centerId) userCenters.push(parseInt(centerId));
+            }
+            
+            if (document.getElementById('role-secretary').checked) {
+                userRoles.push('secretary');
+            }
+            
+            if (document.getElementById('role-admin').checked) {
+                userRoles.push('admin');
+            }
+            
+            // Validate that abbot/assistant have centers selected
+            if ((userRoles.includes('abbot') && !document.getElementById('abbotCenterSelect').value) ||
+                (userRoles.includes('assistant') && !document.getElementById('assistantCenterSelect').value)) {
+                alert('Please select your center for Abbot or Assistant roles.');
+                return;
+            }
+            
+            // Hide role selection and show main interface
+            document.getElementById('roleSelection').classList.add('hidden');
+            document.getElementById('navigationMenu').classList.remove('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            
+            buildNavigation();
+            initializeForms();
+        }
+        
+        function buildNavigation() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.innerHTML = '';
+            
+            // Submission functions (for abbot/assistant)
+            if (userRoles.includes('abbot') || userRoles.includes('assistant')) {
+                navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'weekly-submit\')">📅 Submit Weekly Local</button>';
+                navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'monthly-submit\')">🌙 Submit Monthly Puja & Donations</button>';
+            }
+            
+            // Reporting functions
+            navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'weekly-reports\')">📊 Weekly Reports</button>';
+            navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'monthly-puja-reports\')">🌙 Puja Reports</button>';
+            navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'donation-reports\')">💰 Donation Reports</button>';
+            navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'missing-reports\')">⚠️ Missing Reports</button>';
+            
+            // Admin functions
+            if (userRoles.includes('admin')) {
+                navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'center-management\')">🏛️ Center Management</button>';
+                navMenu.innerHTML += '<button class="nav-btn" onclick="showSection(\'import-data\')">📥 Import Data</button>';
+            }
+            
+            // Show first section by default
+            if (userRoles.includes('abbot') || userRoles.includes('assistant')) {
+                showSection('weekly-submit');
+            } else {
+                showSection('weekly-reports');
+            }
+        }
+        
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('#mainContent > .card').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(`section-${sectionName}`).classList.remove('hidden');
+            
+            // Activate corresponding nav button
+            event.target.classList.add('active');
+            
+            // Load section-specific data
+            switch(sectionName) {
+                case 'weekly-reports':
+                    loadWeeklyReports();
+                    break;
+                case 'monthly-puja-reports':
+                    loadPujaReports();
+                    break;
+                case 'donation-reports':
+                    loadDonationReports();
+                    break;
+                case 'missing-reports':
+                    loadMissingReports();
+                    break;
+                case 'center-management':
+                    loadCenterManagement();
+                    break;
+            }
+        }
+        
+        function initializeForms() {
+            // Populate date selects
+            populateWeekOptions();
+            populateMonthOptions();
+            populateCenterOptions();
+            
+            // Setup form event listeners
+            setupFormEventListeners();
+        }
+        
+        function populateWeekOptions() {
+            const weeks = generateWeekOptions();
+            const selects = ['weeklyWeekSelect', 'weeklyReportsWeekSelect'];
+            
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '';
+                    weeks.forEach(week => {
+                        const option = document.createElement('option');
+                        option.value = week.id;
+                        option.textContent = week.label;
+                        select.appendChild(option);
+                    });
+                }
+            });
+        }
+        
+        function populateMonthOptions() {
+            const months = generateMonthOptions();
+            const selects = ['monthlyMonthSelect', 'pujaReportsMonthSelect', 'donationReportsMonthSelect'];
+            
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '';
+                    months.forEach(month => {
+                        const option = document.createElement('option');
+                        option.value = month.id;
+                        option.textContent = month.label;
+                        select.appendChild(option);
+                    });
+                }
+            });
+        }
+        
+        function populateCenterOptions() {
+            const selects = ['weeklyCenterSelect', 'monthlyCenterSelect'];
+            
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '<option value="">Select Center...</option>';
+                    
+                    // Filter centers based on user role
+                    let availableCenters = centers;
+                    if (userRoles.includes('abbot') || userRoles.includes('assistant')) {
+                        // Show only user's centers
+                        availableCenters = centers.filter(center => userCenters.includes(center.id));
+                    }
+                    
+                    availableCenters.forEach(center => {
+                        const option = document.createElement('option');
+                        option.value = center.id;
+                        option.textContent = `${center.abbreviation} - ${center.englishName}`;
+                        select.appendChild(option);
+                    });
+                }
+            });
+        }
+        
+        function setupFormEventListeners() {
+            // Weekly form
+            const weeklyForm = document.getElementById('weeklyForm');
+            if (weeklyForm) {
+                weeklyForm.addEventListener('submit', submitWeeklyReport);
+                document.getElementById('totalLocalAttendees').addEventListener('input', validateLocalAttendees);
+                document.getElementById('newLocalAttendees').addEventListener('input', validateLocalAttendees);
+            }
+            
+            // Monthly form
+            const monthlyForm = document.getElementById('monthlyForm');
+            if (monthlyForm) {
+                monthlyForm.addEventListener('submit', submitMonthlyReport);
+                document.getElementById('onsitePujaAttendees').addEventListener('input', calculateTotalPuja);
+                document.getElementById('onlinePujaAttendees').addEventListener('input', calculateTotalPuja);
+            }
+            
+            // Report selects
+            const weeklyReportsSelect = document.getElementById('weeklyReportsWeekSelect');
+            if (weeklyReportsSelect) {
+                weeklyReportsSelect.addEventListener('change', loadWeeklyReports);
+            }
+            
+            const pujaReportsSelect = document.getElementById('pujaReportsMonthSelect');
+            if (pujaReportsSelect) {
+                pujaReportsSelect.addEventListener('change', loadPujaReports);
+            }
+            
+            const donationReportsSelect = document.getElementById('donationReportsMonthSelect');
+            if (donationReportsSelect) {
+                donationReportsSelect.addEventListener('change', loadDonationReports);
+            }
+            
+            // Center management form
+            const centerForm = document.getElementById('addEditCenterForm');
+            if (centerForm) {
+                centerForm.addEventListener('submit', saveCenterData);
+            }
+            
+            // File import
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', handleFileImport);
+            }
+        }
+        
+        function generateWeekOptions() {
+            const weeks = [];
+            const today = new Date();
+            
+            for (let i = 0; i < 9; i++) {
+                const weekStart = new Date(today);
+                weekStart.setDate(today.getDate() - (today.getDay() + (i * 7)));
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+                
+                const weekId = formatDate(weekStart);
+                const label = i === 0 ? 
+                    `${formatDateRange(weekStart, weekEnd)} (Current Week)` :
+                    i === 1 ?
+                    `${formatDateRange(weekStart, weekEnd)} (Previous Week)` :
+                    formatDateRange(weekStart, weekEnd);
+                
+                weeks.push({
+                    id: weekId,
+                    label: label,
+                    start: weekStart,
+                    end: weekEnd
+                });
+            }
+            
+            return weeks;
+        }
+        
+        function generateMonthOptions() {
+            const months = [];
+            const today = new Date();
+            
+            for (let i = 0; i < 7; i++) {
+                const monthDate = new Date(today.getFullYear(), today.getMonth() - i, 1);
+                const monthId = `${monthDate.getFullYear()}-${String(monthDate.getMonth() + 1).padStart(2, '0')}`;
+                const label = i === 0 ? 
+                    `${monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} (Current Month)` :
+                    i === 1 ?
+                    `${monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} (Previous Month)` :
+                    monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                
+                months.push({
+                    id: monthId,
+                    label: label,
+                    date: monthDate
+                });
+            }
+            
+            return months;
+        }
+        
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        function formatDateRange(start, end) {
+            const options = { month: 'short', day: 'numeric' };
+            const startStr = start.toLocaleDateString('en-US', options);
+            const endStr = end.toLocaleDateString('en-US', options);
+            const year = start.getFullYear();
+            return `${startStr}-${endStr}, ${year}`;
+        }
+        
+        // Form validation functions
+        function validateLocalAttendees() {
+            const total = parseInt(document.getElementById('totalLocalAttendees').value) || 0;
+            const newAttendees = parseInt(document.getElementById('newLocalAttendees').value) || 0;
+            
+            if (newAttendees > total) {
+                document.getElementById('newLocalAttendees').value = total;
+                showMessage('weekly-messages', 'New attendees cannot exceed total attendees', 'error');
+            }
+        }
+        
+        function calculateTotalPuja() {
+            const onsite = parseInt(document.getElementById('onsitePujaAttendees').value) || 0;
+            const online = parseInt(document.getElementById('onlinePujaAttendees').value) || 0;
+            document.getElementById('totalPujaAttendees').value = onsite + online;
+        }
+        
+        // Form submission functions
+        function submitWeeklyReport(e) {
+            e.preventDefault();
+            
+            const formData = {
+                centerId: parseInt(document.getElementById('weeklyCenterSelect').value),
+                weekId: document.getElementById('weeklyWeekSelect').value,
+                totalAttendees: parseInt(document.getElementById('totalLocalAttendees').value),
+                newAttendees: parseInt(document.getElementById('newLocalAttendees').value),
+                notes: document.getElementById('weeklyNotes').value,
+                submittedBy: userRoles[0],
+                submittedAt: new Date().toISOString(),
+                centerName: centers.find(c => c.id === parseInt(document.getElementById('weeklyCenterSelect').value))?.englishName,
+                abbreviation: centers.find(c => c.id === parseInt(document.getElementById('weeklyCenterSelect').value))?.abbreviation
+            };
+            
+            saveWeeklyReport(formData);
+            showMessage('weekly-messages', 'Weekly report submitted successfully!', 'success');
+            document.getElementById('weeklyForm').reset();
+        }
+        
+        function submitMonthlyReport(e) {
+            e.preventDefault();
+            
+            const formData = {
+                centerId: parseInt(document.getElementById('monthlyCenterSelect').value),
+                monthId: document.getElementById('monthlyMonthSelect').value,
+                onsiteAttendees: parseInt(document.getElementById('onsitePujaAttendees').value),
+                onlineAttendees: parseInt(document.getElementById('onlinePujaAttendees').value),
+                totalAttendees: parseInt(document.getElementById('totalPujaAttendees').value),
+                donations: parseFloat(document.getElementById('monthlyDonations').value),
+                notes: document.getElementById('monthlyNotes').value,
+                submittedBy: userRoles[0],
+                submittedAt: new Date().toISOString(),
+                centerName: centers.find(c => c.id === parseInt(document.getElementById('monthlyCenterSelect').value))?.englishName,
+                abbreviation: centers.find(c => c.id === parseInt(document.getElementById('monthlyCenterSelect').value))?.abbreviation
+            };
+            
+            saveMonthlyReport(formData);
+            showMessage('monthly-messages', 'Monthly report submitted successfully!', 'success');
+            document.getElementById('monthlyForm').reset();
+        }
+        
+        // Data storage functions
+        function saveWeeklyReport(reportData) {
+            const reports = JSON.parse(localStorage.getItem('weeklyReports') || '{}');
+            const key = `${reportData.centerId}-${reportData.weekId}`;
+            reports[key] = reportData;
+            localStorage.setItem('weeklyReports', JSON.stringify(reports));
+        }
+        
+        function saveMonthlyReport(reportData) {
+            const reports = JSON.parse(localStorage.getItem('monthlyReports') || '{}');
+            const key = `${reportData.centerId}-${reportData.monthId}`;
+            reports[key] = reportData;
+            localStorage.setItem('monthlyReports', JSON.stringify(reports));
+        }
+        
+        function getWeeklyReports() {
+            return JSON.parse(localStorage.getItem('weeklyReports') || '{}');
+        }
+        
+        function getMonthlyReports() {
+            return JSON.parse(localStorage.getItem('monthlyReports') || '{}');
+        }
+        
+        // Report loading functions
+        function loadWeeklyReports() {
+            const selectedWeek = document.getElementById('weeklyReportsWeekSelect').value;
+            const reports = getWeeklyReports();
+            const weekReports = Object.values(reports).filter(r => r.weekId === selectedWeek);
+            
+            const content = document.getElementById('weeklyReportsContent');
+            
+            if (weekReports.length === 0) {
+                content.innerHTML = '<p>No weekly reports found for this week.</p>';
+                return;
+            }
+            
+            let html = `
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Center</th>
+                            <th>Total Attendees</th>
+                            <th>New Attendees</th>
+                            <th>Notes</th>
+                            <th>Submitted By</th>
+                            <th>Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            weekReports.forEach(report => {
+                html += `
+                    <tr>
+                        <td>${report.abbreviation}</td>
+                        <td>${report.totalAttendees}</td>
+                        <td>${report.newAttendees}</td>
+                        <td>${report.notes || '-'}</td>
+                        <td>${report.submittedBy}</td>
+                        <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+        
+        function loadPujaReports() {
+            const selectedMonth = document.getElementById('pujaReportsMonthSelect').value;
+            const reports = getMonthlyReports();
+            const monthReports = Object.values(reports).filter(r => r.monthId === selectedMonth);
+            
+            const content = document.getElementById('pujaReportsContent');
+            
+            if (monthReports.length === 0) {
+                content.innerHTML = '<p>No Puja Kao Phra reports found for this month.</p>';
+                return;
+            }
+            
+            let html = `
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Center</th>
+                            <th>On-site Attendees</th>
+                            <th>Online Attendees</th>
+                            <th>Total Attendees</th>
+                            <th>Notes</th>
+                            <th>Submitted By</th>
+                            <th>Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            monthReports.forEach(report => {
+                html += `
+                    <tr>
+                        <td>${report.abbreviation}</td>
+                        <td>${report.onsiteAttendees}</td>
+                        <td>${report.onlineAttendees}</td>
+                        <td>${report.totalAttendees}</td>
+                        <td>${report.notes || '-'}</td>
+                        <td>${report.submittedBy}</td>
+                        <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            content.innerHTML = html;
+        }
+        
+        function loadDonationReports() {
+            const selectedMonth = document.getElementById('donationReportsMonthSelect').value;
+            const reports = getMonthlyReports();
+            let monthReports = Object.values(reports).filter(r => r.monthId === selectedMonth);
+            
+            // Filter by user's centers if they are abbot/assistant (not secretary/admin)
+            if ((userRoles.includes('abbot') || userRoles.includes('assistant')) && 
+                !userRoles.includes('secretary') && !userRoles.includes('admin')) {
+                monthReports = monthReports.filter(r => userCenters.includes(r.centerId));
+            }
+            
+            const content = document.getElementById('donationReportsContent');
+            
+            if (monthReports.length === 0) {
+                content.innerHTML = '<p>No donation reports found for this month.</p>';
+                return;
+            }
+            
+            let html = `
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Center</th>
+                            <th>Donations ($)</th>
+                            <th>Puja Attendees</th>
+                            <th>Notes</th>
+                            <th>Submitted By</th>
+                            <th>Date Submitted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            let totalDonations = 0;
+            monthReports.forEach(report => {
+                totalDonations += report.donations;
+                html += `
+                    <tr>
+                        <td>${report.abbreviation}</td>
+                        <td>$${report.donations.toLocaleString()}</td>
+                        <td>${report.totalAttendees}</td>
+                        <td>${report.notes || '-'}</td>
+                        <td>${report.submittedBy}</td>
+                        <td>${new Date(report.submittedAt).toLocaleDateString()}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                </tbody>
+                <tfoot>
+                    <tr style="background: #f8f9fa; font-weight: bold;">
+                        <td>TOTAL</td>
+                        <td>$${totalDonations.toLocaleString()}</td>
+                        <td colspan="4"></td>
+                    </tr>
+                </tfoot>
+                </table>
+            `;
+            content.innerHTML = html;
+        }
+        
+        function loadMissingReports() {
+            const weeklyReports = getWeeklyReports();
+            const monthlyReports = getMonthlyReports();
+            const weeks = generateWeekOptions();
+            const months = generateMonthOptions();
+            
+            // Filter centers based on user role
+            let targetCenters = centers;
+            if ((userRoles.includes('abbot') || userRoles.includes('assistant')) && 
+                !userRoles.includes('secretary') && !userRoles.includes('admin')) {
+                targetCenters = centers.filter(center => userCenters.includes(center.id));
+            }
+            
+            let missingWeekly = [];
+            let missingMonthly = [];
+            
+            // Check for missing weekly reports (last 4 weeks)
+            weeks.slice(0, 4).forEach(week => {
+                targetCenters.forEach(center => {
+                    const key = `${center.id}-${week.id}`;
+                    if (!weeklyReports[key]) {
+                        missingWeekly.push({
+                            center: center,
+                            week: week
+                        });
+                    }
+                });
+            });
+            
+            // Check for missing monthly reports (last 3 months)
+            months.slice(0, 3).forEach(month => {
+                targetCenters.forEach(center => {
+                    const key = `${center.id}-${month.id}`;
+                    if (!monthlyReports[key]) {
+                        missingMonthly.push({
+                            center: center,
+                            month: month
+                        });
+                    }
+                });
+            });
+            
+            // Update stats
+            document.getElementById('missingWeeklyCount').textContent = missingWeekly.length;
+            document.getElementById('missingMonthlyCount').textContent = missingMonthly.length;
+            
+            // Generate missing reports content
+            let html = '';
+            
+            if (missingWeekly.length > 0) {
+                html += `
+                    <h3>Missing Weekly Reports</h3>
+                    <table class="reports-table">
+                        <thead>
+                            <tr>
+                                <th>Center</th>
+                                <th>Missing Week</th>
+                                <th>Week Period</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                missingWeekly.forEach(item => {
+                    html += `
+                        <tr>
+                            <td>${item.center.abbreviation}</td>
+                            <td>${item.week.id}</td>
+                            <td>${item.week.label}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+            }
+            
+            if (missingMonthly.length > 0) {
+                html += `
+                    <h3>Missing Monthly Reports</h3>
+                    <table class="reports-table">
+                        <thead>
+                            <tr>
+                                <th>Center</th>
+                                <th>Missing Month</th>
+                                <th>Month Period</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                missingMonthly.forEach(item => {
+                    html += `
+                        <tr>
+                            <td>${item.center.abbreviation}</td>
+                            <td>${item.month.id}</td>
+                            <td>${item.month.label}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+            }
+            
+            if (missingWeekly.length === 0 && missingMonthly.length === 0) {
+                html = '<p>✅ All reports are up to date!</p>';
+            }
+            
+            document.getElementById('missingReportsContent').innerHTML = html;
+        }
+        
+        // Center Management Functions
+        function loadCenterManagement() {
+            saveCentersToStorage(); // Ensure centers are saved
+            displayCentersTable();
+        }
+        
+        function displayCentersTable() {
+            const container = document.getElementById('centersTableContainer');
+            
+            let html = `
+                <h3>Manage Centers</h3>
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Abbreviation</th>
+                            <th>English Name</th>
+                            <th>Abbot</th>
+                            <th>Assistant</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            centers.forEach(center => {
+                html += `
+                    <tr>
+                        <td>${center.id}</td>
+                        <td>${center.abbreviation}</td>
+                        <td>${center.englishName}</td>
+                        <td>${center.abbotName}<br><small>${center.abbotEmail}</small></td>
+                        <td>${center.assistantName || '-'}<br><small>${center.assistantEmail || '-'}</small></td>
+                        <td>${center.isActive ? '✅ Active' : '❌ Inactive'}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="editCenter(${center.id})" style="padding: 5px 10px; margin: 2px;">✏️ Edit</button>
+                            <button class="btn btn-danger" onclick="deleteCenter(${center.id})" style="padding: 5px 10px; margin: 2px;">🗑️ Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+        
+        function showAddCenterForm() {
+            document.getElementById('centerFormTitle').textContent = 'Add New Center';
+            document.getElementById('editCenterId').value = '';
+            document.getElementById('addEditCenterForm').reset();
+            document.getElementById('centerForm').classList.remove('hidden');
+        }
+        
+        function editCenter(centerId) {
+            const center = centers.find(c => c.id === centerId);
+            if (!center) return;
+            
+            document.getElementById('centerFormTitle').textContent = 'Edit Center';
+            document.getElementById('editCenterId').value = center.id;
+            document.getElementById('centerEnglishName').value = center.englishName;
+            document.getElementById('centerThaiName').value = center.thaiName || '';
+            document.getElementById('centerAbbreviation').value = center.abbreviation;
+            document.getElementById('centerStatus').value = center.isActive ? 'active' : 'inactive';
+            document.getElementById('centerAbbotName').value = center.abbotName;
+            document.getElementById('centerAbbotEmail').value = center.abbotEmail;
+            document.getElementById('centerAssistantName').value = center.assistantName || '';
+            document.getElementById('centerAssistantEmail').value = center.assistantEmail || '';
+            document.getElementById('centerNotes').value = center.notes || '';
+            
+            document.getElementById('centerForm').classList.remove('hidden');
+        }
+        
+        function saveCenterData(e) {
+            e.preventDefault();
+            
+            const centerId = document.getElementById('editCenterId').value;
+            const centerData = {
+                englishName: document.getElementById('centerEnglishName').value,
+                thaiName: document.getElementById('centerThaiName').value,
+                abbreviation: document.getElementById('centerAbbreviation').value,
+                isActive: document.getElementById('centerStatus').value === 'active',
+                abbotName: document.getElementById('centerAbbotName').value,
+                abbotEmail: document.getElementById('centerAbbotEmail').value,
+                assistantName: document.getElementById('centerAssistantName').value,
+                assistantEmail: document.getElementById('centerAssistantEmail').value,
+                notes: document.getElementById('centerNotes').value
+            };
+            
+            if (centerId) {
+                // Edit existing center
+                const centerIndex = centers.findIndex(c => c.id === parseInt(centerId));
+                if (centerIndex !== -1) {
+                    centers[centerIndex] = { ...centers[centerIndex], ...centerData };
+                }
+            } else {
+                // Add new center
+                const newId = Math.max(...centers.map(c => c.id)) + 1;
+                centers.push({
+                    id: newId,
+                    ...centerData
+                });
+            }
+            
+            saveCentersToStorage();
+            displayCentersTable();
+            cancelCenterForm();
+            
+            // Refresh center options in forms
+            populateCenterSelects();
+            populateCenterOptions();
+        }
+        
+        function deleteCenter(centerId) {
+            if (confirm('Are you sure you want to delete this center? This action cannot be undone.')) {
+                centers = centers.filter(c => c.id !== centerId);
+                saveCentersToStorage();
+                displayCentersTable();
+                
+                // Refresh center options in forms
+                populateCenterSelects();
+                populateCenterOptions();
+            }
+        }
+        
+        function cancelCenterForm() {
+            document.getElementById('centerForm').classList.add('hidden');
+            document.getElementById('addEditCenterForm').reset();
+        }
+        
+        function saveCentersToStorage() {
+            localStorage.setItem('buddhist-centers', JSON.stringify(centers));
+        }
+        
+        function loadCentersFromStorage() {
+            const storedCenters = localStorage.getItem('buddhist-centers');
+            if (storedCenters) {
+                centers = JSON.parse(storedCenters);
+            }
+        }
+        
+        // Export functions
+        function exportWeeklyReports() {
+            const selectedWeek = document.getElementById('weeklyReportsWeekSelect').value;
+            const reports = getWeeklyReports();
+            const weekReports = Object.values(reports).filter(r => r.weekId === selectedWeek);
+            
+            if (weekReports.length === 0) {
+                alert('No reports to export for the selected week.');
+                return;
+            }
+            
+            const headers = ['Center', 'Abbreviation', 'Total Attendees', 'New Attendees', 'Notes', 'Submitted By', 'Date Submitted'];
+            const csvData = [headers];
+            
+            weekReports.forEach(report => {
+                csvData.push([
+                    report.centerName,
+                    report.abbreviation,
+                    report.totalAttendees,
+                    report.newAttendees,
+                    report.notes || '',
+                    report.submittedBy,
+                    new Date(report.submittedAt).toLocaleDateString()
+                ]);
+            });
+            
+            downloadCSV(csvData, `weekly-reports-${selectedWeek}.csv`);
+        }
+        
+        function exportPujaReports() {
+            const selectedMonth = document.getElementById('pujaReportsMonthSelect').value;
+            const reports = getMonthlyReports();
+            const monthReports = Object.values(reports).filter(r => r.monthId === selectedMonth);
+            
+            if (monthReports.length === 0) {
+                alert('No reports to export for the selected month.');
+                return;
+            }
+            
+            const headers = ['Center', 'Abbreviation', 'On-site Attendees', 'Online Attendees', 'Total Attendees', 'Notes', 'Submitted By', 'Date Submitted'];
+            const csvData = [headers];
+            
+            monthReports.forEach(report => {
+                csvData.push([
+                    report.centerName,
+                    report.abbreviation,
+                    report.onsiteAttendees,
+                    report.onlineAttendees,
+                    report.totalAttendees,
+                    report.notes || '',
+                    report.submittedBy,
+                    new Date(report.submittedAt).toLocaleDateString()
+                ]);
+            });
+            
+            downloadCSV(csvData, `puja-reports-${selectedMonth}.csv`);
+        }
+        
+        function exportDonationReports() {
+            const selectedMonth = document.getElementById('donationReportsMonthSelect').value;
+            const reports = getMonthlyReports();
+            let monthReports = Object.values(reports).filter(r => r.monthId === selectedMonth);
+            
+            // Filter by user's centers if they are abbot/assistant (not secretary/admin)
+            if ((userRoles.includes('abbot') || userRoles.includes('assistant')) && 
+                !userRoles.includes('secretary') && !userRoles.includes('admin')) {
+                monthReports = monthReports.filter(r => userCenters.includes(r.centerId));
+            }
+            
+            if (monthReports.length === 0) {
+                alert('No reports to export for the selected month.');
+                return;
+            }
+            
+            const headers = ['Center', 'Abbreviation', 'Donations ($)', 'Puja Attendees', 'Notes', 'Submitted By', 'Date Submitted'];
+            const csvData = [headers];
+            
+            monthReports.forEach(report => {
+                csvData.push([
+                    report.centerName,
+                    report.abbreviation,
+                    report.donations,
+                    report.totalAttendees,
+                    report.notes || '',
+                    report.submittedBy,
+                    new Date(report.submittedAt).toLocaleDateString()
+                ]);
+            });
+            
+            downloadCSV(csvData, `donation-reports-${selectedMonth}.csv`);
+        }
+        
+        function exportCenters() {
+            const headers = ['ID', 'English Name', 'Thai Name', 'Abbreviation', 'Abbot Name', 'Abbot Email', 'Assistant Name', 'Assistant Email', 'Status', 'Notes'];
+            const csvData = [headers];
+            
+            centers.forEach(center => {
+                csvData.push([
+                    center.id,
+                    center.englishName,
+                    center.thaiName || '',
+                    center.abbreviation,
+                    center.abbotName,
+                    center.abbotEmail,
+                    center.assistantName || '',
+                    center.assistantEmail || '',
+                    center.isActive ? 'Active' : 'Inactive',
+                    center.notes || ''
+                ]);
+            });
+            
+            downloadCSV(csvData, 'buddhist-centers.csv');
+        }
+        
+        function downloadCSV(csvData, filename) {
+            const csvContent = csvData.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        // Import functions
+        function handleFileImport(e) {
+            const files = e.target.files;
+            if (files.length === 0) return;
+            
+            const resultsDiv = document.getElementById('importResults');
+            resultsDiv.innerHTML = '<h3>📊 Import Results</h3>';
+            
+            Array.from(files).forEach(file => {
+                if (file.type !== 'text/csv') {
+                    resultsDiv.innerHTML += `<p>❌ ${file.name}: Not a CSV file</p>`;
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    try {
+                        const csvData = parseCSV(event.target.result);
+                        const result = processImportData(csvData, file.name);
+                        resultsDiv.innerHTML += `<p>${result.success ? '✅' : '❌'} ${file.name}: ${result.message}</p>`;
+                    } catch (error) {
+                        resultsDiv.innerHTML += `<p>❌ ${file.name}: Error processing file - ${error.message}</p>`;
+                    }
+                };
+                reader.readAsText(file);
+            });
+        }
+        
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            const headers = lines[0].split(',').map(h => h.trim());
+            const data = lines.slice(1).map(line => {
+                const values = line.split(',').map(v => v.trim());
+                const row = {};
+                headers.forEach((header, index) => {
+                    row[header] = values[index];
+                });
+                return row;
+            });
+            return { headers, data };
+        }
+        
+        function processImportData(csvData, filename) {
+            if (filename.toLowerCase().includes('weekly') || filename.toLowerCase().includes('local')) {
+                return importWeeklyData(csvData);
+            } else if (filename.toLowerCase().includes('monthly') || filename.toLowerCase().includes('puja')) {
+                return importMonthlyData(csvData);
+            } else {
+                return { success: false, message: 'Unable to determine data type from filename' };
+            }
+        }
+        
+        function importWeeklyData(csvData) {
+            const requiredHeaders = ['Center ID', 'Week', 'Total Attendees', 'New Attendees'];
+            const hasRequired = requiredHeaders.every(header => 
+                csvData.headers.some(h => h.toLowerCase().includes(header.toLowerCase()))
+            );
+            
+            if (!hasRequired) {
+                return { success: false, message: 'Missing required headers for weekly data' };
+            }
+            
+            let imported = 0;
+            const weeklyReports = getWeeklyReports();
+            
+            csvData.data.forEach(row => {
+                const centerId = parseInt(row['Center ID']);
+                const weekId = row['Week'];
+                const totalAttendees = parseInt(row['Total Attendees']);
+                const newAttendees = parseInt(row['New Attendees']);
+                const notes = row['Notes'] || '';
+                
+                if (centerId && weekId && !isNaN(totalAttendees) && !isNaN(newAttendees)) {
+                    const center = centers.find(c => c.id === centerId);
+                    if (center) {
+                        const key = `${centerId}-${weekId}`;
+                        weeklyReports[key] = {
+                            centerId,
+                            weekId,
+                            totalAttendees,
+                            newAttendees,
+                            notes,
+                            submittedBy: 'import',
+                            submittedAt: new Date().toISOString(),
+                            centerName: center.englishName,
+                            abbreviation: center.abbreviation
+                        };
+                        imported++;
+                    }
+                }
+            });
+            
+            localStorage.setItem('weeklyReports', JSON.stringify(weeklyReports));
+            return { success: true, message: `Imported ${imported} weekly reports` };
+        }
+        
+        function importMonthlyData(csvData) {
+            const requiredHeaders = ['Center ID', 'Month', 'On-site Attendees', 'Online Attendees', 'Donations'];
+            const hasRequired = requiredHeaders.every(header => 
+                csvData.headers.some(h => h.toLowerCase().includes(header.toLowerCase()))
+            );
+            
+            if (!hasRequired) {
+                return { success: false, message: 'Missing required headers for monthly data' };
+            }
+            
+            let imported = 0;
+            const monthlyReports = getMonthlyReports();
+            
+            csvData.data.forEach(row => {
+                const centerId = parseInt(row['Center ID']);
+                const monthId = row['Month'];
+                const onsiteAttendees = parseInt(row['On-site Attendees']);
+                const onlineAttendees = parseInt(row['Online Attendees']);
+                const donations = parseFloat(row['Donations']);
+                const notes = row['Notes'] || '';
+                
+                if (centerId && monthId && !isNaN(onsiteAttendees) && !isNaN(onlineAttendees) && !isNaN(donations)) {
+                    const center = centers.find(c => c.id === centerId);
+                    if (center) {
+                        const key = `${centerId}-${monthId}`;
+                        monthlyReports[key] = {
+                            centerId,
+                            monthId,
+                            onsiteAttendees,
+                            onlineAttendees,
+                            totalAttendees: onsiteAttendees + onlineAttendees,
+                            donations,
+                            notes,
+                            submittedBy: 'import',
+                            submittedAt: new Date().toISOString(),
+                            centerName: center.englishName,
+                            abbreviation: center.abbreviation
+                        };
+                        imported++;
+                    }
+                }
+            });
+            
+            localStorage.setItem('monthlyReports', JSON.stringify(monthlyReports));
+            return { success: true, message: `Imported ${imported} monthly reports` };
+        }
+        
+        // Utility functions
+        function showMessage(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="${type}-message">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+        
+        function initializeData() {
+            // Load centers from storage or use defaults
+            loadCentersFromStorage();
+            
+            // Initialize with some demo data if none exists
+            const weeklyReports = getWeeklyReports();
+            const monthlyReports = getMonthlyReports();
+            
+            if (Object.keys(weeklyReports).length === 0) {
+                // Add some sample weekly data
+                const demoWeekly = {
+                    '1-2025-07-21': {
+                        centerId: 1,
+                        weekId: '2025-07-21',
+                        totalAttendees: 25,
+                        newAttendees: 3,
+                        notes: 'Good week with new participants',
+                        submittedBy: 'abbot',
+                        submittedAt: '2025-07-23T14:30:00.000Z',
+                        centerName: 'Dhammakaya International Meditation Center',
+                        abbreviation: 'DIMC'
+                    },
+                    '16-2025-07-21': {
+                        centerId: 16,
+                        weekId: '2025-07-21',
+                        totalAttendees: 18,
+                        newAttendees: 2,
+                        notes: 'Regular weekly session',
+                        submittedBy: 'abbot',
+                        submittedAt: '2025-07-23T16:45:00.000Z',
+                        centerName: 'Dhammakaya Meditation Center San Diego',
+                        abbreviation: 'DMCSD'
+                    }
+                };
+                localStorage.setItem('weeklyReports', JSON.stringify(demoWeekly));
+            }
+            
+            if (Object.keys(monthlyReports).length === 0) {
+                // Add some sample monthly data
+                const demoMonthly = {
+                    '1-2025-07': {
+                        centerId: 1,
+                        monthId: '2025-07',
+                        onsiteAttendees: 30,
+                        onlineAttendees: 15,
+                        totalAttendees: 45,
+                        donations: 500.00,
+                        notes: 'Good month with strong participation',
+                        submittedBy: 'abbot',
+                        submittedAt: '2025-07-31T16:45:00.000Z',
+                        centerName: 'Dhammakaya International Meditation Center',
+                        abbreviation: 'DIMC'
+                    },
+                    '16-2025-07': {
+                        centerId: 16,
+                        monthId: '2025-07',
+                        onsiteAttendees: 25,
+                        onlineAttendees: 10,
+                        totalAttendees: 35,
+                        donations: 350.00,
+                        notes: 'Regular monthly Puja Kao Phra',
+                        submittedBy: 'abbot',
+                        submittedAt: '2025-07-31T18:20:00.000Z',
+                        centerName: 'Dhammakaya Meditation Center San Diego',
+                        abbreviation: 'DMCSD'
+                    }
+                };
+                localStorage.setItem('monthlyReports', JSON.stringify(demoMonthly));
+            }
+        }
+    </script>
+</body>
+</html>
